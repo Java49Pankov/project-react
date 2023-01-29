@@ -1,52 +1,51 @@
 
 import React from "react";
+
 import timeZones from "../time-zones";
 import { Input } from "./Input";
-
 type TimerProps = {
     cityOrCountry: string;
-};
-
+}
 export const Timer: React.FC<TimerProps> = (props) => {
-    const [timeZoneInd, setTimeInd] = React.useState(getIndex(props.cityOrCountry));
-    let timeZone: string = timeZones[timeZoneInd]?.name;
-    const [time, setTime] = React.useState<Date>(new Date());
-    const newTimeZoneName = React.useRef(timeZone ? props.cityOrCountry : "Israel");
-    console.log(props.cityOrCountry);
-
+    const timeZoneIndex: number =
+        timeZones.findIndex(tz => JSON.stringify(tz).includes(props.cityOrCountry));
+    const [timeZone, setTimeZone] = React.useState(timeZones[timeZoneIndex]?.name);
+    const timeZoneName = React.useRef(timeZone ?
+        props.cityOrCountry : "Israel");
+    const [time, setTime] = React.useState(new Date());
     function tick() {
-        console.log("tick-tack");
+        console.log("tick");
         setTime(new Date());
-    }
-
-    function getIndex(cityOrCountry: string): number {
-        return timeZones.findIndex(elem => JSON.stringify(elem).includes("\"" + cityOrCountry + "\""))
     }
 
     React.useEffect(() => {
         const interval = setInterval(tick, 1000);
+        const timeZoneIndex: number =
+            timeZones.findIndex(tz => JSON.stringify(tz).includes(props.cityOrCountry));
+        timeZoneName.current = timeZone ? props.cityOrCountry : "Israel"
+        setTimeZone(timeZones[timeZoneIndex]?.name);
         return () => clearInterval(interval);
-    }, [])
+    }, [props])
 
-    function processInput(cityOrCountry: string): string {
-        let res: string = '';
-        const index: number = getIndex(cityOrCountry);
+    function processCityCountry(value: string): string {
+        const index = timeZones.findIndex(tz => JSON.stringify(tz).includes(value));
+        let res = '';
         if (index < 0) {
-            res = "Error, please enter a valid city or country";
+            res = `${value} is wrong city / country, please type again`;
         } else {
-            timeZone = timeZones[index].name;
-            newTimeZoneName.current = cityOrCountry;
-            setTimeInd(index)
+            timeZoneName.current = value;
+            setTimeZone(timeZones[index].name);
         }
         return res;
     }
 
-
     return <div>
-        <h3 > Time in time zone {newTimeZoneName.current} </h3>
-        <label style={{ display: "block", textAlign: "center", fontSize: "2em" }}>
-            Time {time.toLocaleTimeString(undefined, { timeZone })}
-        </label>
-        <Input inputProcess={processInput} placeHolder={""} />
-    </div >
+        <Input placeHolder={"Enter city or country"} inputProcess={processCityCountry} />
+        <h3 className='logo'>Time in {timeZoneName.current}</h3>
+        <label style={{
+            display: "block",
+            textAlign: "center", fontSize: "2em"
+        }}>
+            {time.toLocaleTimeString(undefined, { timeZone })}</label>
+    </div>
 }

@@ -1,36 +1,33 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from "react"
 import { Alert } from "./Alert";
-
-
 type InputProps = {
-    // inputId: string;
-    inputProcess: (value: string) => string;
     placeHolder: string;
+    inputProcess: (value: string) => string
 }
 
-export const Input: React.FC<InputProps> = ({placeHolder, inputProcess }) => {
-    let inputElement: HTMLInputElement | null;
+export const Input: React.FC<InputProps> = ({ placeHolder, inputProcess }) => {
+    let inputElement: HTMLInputElement | null
+    const inputId = React.useRef(Math.round(Math.random() * 100000000) + '');
     const [message, setMessage] = React.useState('');
-    const [inputId] = React.useState(Math.round(Math.random() * 100000000) + '');
 
+    function processGo(): void {
+        setMessage('')
+        const messageRet: string = inputProcess(inputElement!.value);
 
-    function processClick(): void {
-        setMessage('');
-        const messageRes: string = inputProcess(inputElement!.value);
-        if (messageRes === '') {
+        if (messageRet == '') {
             inputElement!.value = '';
         } else {
-            setMessage(messageRes);
+            setMessage(messageRet);
         }
     }
-   
-    React.useEffect(() => {
-        inputElement = document.getElementById(inputId) as HTMLInputElement;
+
+    useEffect(() => {
+        inputElement = document.getElementById(inputId.current) as HTMLInputElement;
     })
 
     return <div>
-        <input id={inputId} placeholder={placeHolder}/>
-        <button onClick={processClick} >click</button>
+        <input id={inputId.current} placeholder={placeHolder} />
+        <button onClick={processGo}>GO</button>
         {message && <Alert type={"error"} message={message} />}
     </div>
 }
