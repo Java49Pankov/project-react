@@ -20,6 +20,6 @@ export const Row: React.FC<Props> = ({ row }) => {
     }
 
     return <div style={{ display: "flex", flexDirection: "row" }}>
-        {row.map(num => <div style={getStyle(num)}></div>)}
+        {row.map((num, i) => <div style={getStyle(num)} key={i}></div>)}
     </div>
 }
