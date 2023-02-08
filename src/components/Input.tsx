@@ -8,13 +8,14 @@ export const Input: React.FC<InputProps> = ({ placeHolder, inputProcess }) => {
     let inputElement: HTMLInputElement | null;
     const inputId = React.useRef(Math.round(Math.random() * 100000000) + '');
     const [message, setMessage] = React.useState('');
-    
+    const [messageTrue, setTrueMessage] = React.useState('');
+
     function processGo(): void {
         setMessage('');
+        setTrueMessage('');
         const messageRet: string = inputProcess(inputElement!.value);
-
         if (messageRet == '') {
-            inputElement!.value = '';
+            setTrueMessage(`${inputElement!.value} is valide name. Please click the login button`);
         } else {
             setMessage(messageRet);
         }
@@ -28,5 +29,6 @@ export const Input: React.FC<InputProps> = ({ placeHolder, inputProcess }) => {
         <input id={inputId.current} placeholder={placeHolder} />
         <button onClick={processGo}>GO</button>
         {message && <Alert type={"error"} message={message} />}
+        {messageTrue && <Alert type={"info"} message={messageTrue} />}
     </div>
 }

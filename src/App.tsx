@@ -9,11 +9,18 @@ import { useSelector } from 'react-redux';
 import { Input } from './components/Input';
 
 function App() {
-  const auth: boolean = useSelector<any, boolean>(state => state.auth.authenticated);
+  const auth: string = useSelector<any, string>(state => state.auth.userName);
   const [operand, setOperand] = React.useState(1);
   const [factor, setFactor] = React.useState(10);
+  const ADMIN = "admin"
+
+  function validateName(userName: string): boolean {
+    return userName.includes(ADMIN);
+  }
+
   return <div>
     {auth && <div>
+      <p>user name: {auth}</p>
       <Input placeHolder={'Enter operand'} inputProcess={function (value: string): string {
         setOperand(+value);
         return '';
@@ -29,7 +36,11 @@ function App() {
       <CounterMultiply factor={factor}></CounterMultiply>
     </div>}
     {auth && <Logout></Logout>}
-    {!auth && <Login></Login>}
+    {!auth && <div>
+      <p>Please enter user name + admin:</p>
+      <Login loginName={validateName} ></Login>
+    </div>
+    }
   </div>
 }
 
