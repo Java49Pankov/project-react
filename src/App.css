@@ -3,8 +3,6 @@ body {
   flex-direction: column;
   align-items: center;
 }
-
-body,
-html {
+body, html {
   height: 100%;
 }
