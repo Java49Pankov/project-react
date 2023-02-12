@@ -1,5 +1,1 @@
-
-
-export const Home: React.FC = () => {
-    return <h1>Home</h1>
-}
+export const Home: React.FC = () => <h1>Home</h1>
