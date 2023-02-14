@@ -5,6 +5,6 @@ export const layoutConfig: NavigatorProps = {
         { label: 'Home', path: '/' },
         { label: 'Customers', path: '/customers' },
         { label: 'Orders', path: '/orders' },
-        { label: 'Products', path: '/products' }
+        // { label: 'Products', path: '/products' }
     ]
 }

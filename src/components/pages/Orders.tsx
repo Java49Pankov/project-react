@@ -1,1 +1,4 @@
-export const Orders: React.FC = () => <h3>Orders</h3>
+import { Typography } from "@mui/material";
+
+
+export const Orders: React.FC = () =>  <Typography sx={{ fontSize: "2em" }}>Orders</Typography>
