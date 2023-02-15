@@ -1,0 +1,14 @@
+{
+    "MinimalID": 1000,
+    "MaximalID": 9999,
+    "DepartmentName": [
+        "Development",
+        "QA",
+        "Managment",
+        "Audit"
+    ],
+    "MinimalSalary": 5000,
+    "MaximalSalary": 50000,
+    "MinimalBirthYear": 1950,
+    "MaximalBirthYear": 2010
+}
