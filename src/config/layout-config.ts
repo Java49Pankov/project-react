@@ -7,6 +7,5 @@ export const layoutConfig: NavigatorProps = {
         { label: 'Add Employees', path: '/add' },
         { label: 'Age Statistics', path: '/statistics/age' },
         { label: 'Salary Statistics', path: '/statistics/salary' }
-
     ]
 }

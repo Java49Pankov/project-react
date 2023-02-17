@@ -16,35 +16,36 @@ export function createRandomEmployee(): Employee {
     return employee;
 }
 
-export function statAge(employees: Employee[]): { minAge: number, maxAge: number, avgAge: number } {
+export function statAge(employees: Employee[]): { minValue: number, maxValue: number, avgValue: number } {
     const currentYear = new Date().getFullYear();
     const result = employees.reduce((res, empl) => {
         const age = currentYear - new Date(empl.birthDate).getFullYear();
-        if (res.minAge > age) {
-            res.minAge = age;
-        } else if (res.maxAge < age) {
-            res.maxAge = age
+        if (res.minValue > age) {
+            res.minValue = age;
+        } else if (res.maxValue < age) {
+            res.maxValue = age
         }
-        res.avgAge += age;
+        res.avgValue += age;
         return res;
 
-    }, { minAge: 1000, maxAge: 0, avgAge: 0 });
-    result.avgAge = Math.trunc(result.avgAge / employees.length);
+    }, { minValue: 1000, maxValue: 0, avgValue: 0 });
+    result.avgValue = Math.trunc(result.avgValue / employees.length);
     return result;
 }
-export function statSalary(employees: Employee[]): { minSalary: number, maxSalary: number, avgSalary: number } {
+export function statSalary(employees: Employee[]): { minValue: number, maxValue: number, avgValue: number } {
 
     const result = employees.reduce((res, empl) => {
         const { salary } = empl;
-        if (res.minSalary > salary) {
-            res.minSalary = salary;
-        } else if (res.maxSalary < salary) {
-            res.maxSalary = salary;
+        if (res.minValue > salary) {
+            res.minValue = salary;
+        } else if (res.maxValue < salary) {
+            res.maxValue = salary;
         }
-        res.avgSalary += salary;
+        res.avgValue += salary;
         return res;
 
-    }, { minSalary: Number.MAX_VALUE, maxSalary: 0, avgSalary: 0 });
-    result.avgSalary = Math.trunc(result.avgSalary / employees.length);
+    }, { minValue: Number.MAX_VALUE, maxValue: 0, avgValue: 0 });
+    result.avgValue = Math.trunc(result.avgValue / employees.length);
+    Math.trunc(result.avgValue / employees.length);
     return result;
 }

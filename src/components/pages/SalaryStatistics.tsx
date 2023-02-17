@@ -1,13 +1,10 @@
 import React from 'react';
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
+import { Statistics } from '../Statistics';
 import { statSalary } from '../../service/EmployeesService';
-import { useSelector } from 'react-redux';
-import { Employee } from '../../model/Employee';
 
 export const SalaryStatistics: React.FC = () => {
-    const employees = useSelector<any, Employee[]>
-        (state => state.company.employees)
-    return <Box>
-        <Typography>{JSON.stringify(statSalary(employees))}</Typography>
+    return <Box sx={{ height: "80vh", width: "80vw" }}>
+        <Statistics title={'Salary statistics:'} propsStat={statSalary}></Statistics>
     </Box>
 }
