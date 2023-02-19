@@ -1,5 +1,6 @@
 .header {
-    font-weight: bold;
-    font-family: 'Times New Roman', Times, serif;
-    color: blue;    
+    font-weight: bolder;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.5em;
+    font-style: italic;
 }

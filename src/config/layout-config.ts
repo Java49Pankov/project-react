@@ -1,5 +1,4 @@
 import { NavigatorProps } from "../model/NavigatorProps";
-
 export const layoutConfig: NavigatorProps = {
     className: 'navigator-list',
     routes: [
