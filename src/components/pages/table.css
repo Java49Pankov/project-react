@@ -1,6 +1,6 @@
 .header {
-    font-weight: bold;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: bolder;
+    font-family: 'Courier New', Courier, monospace;
     font-size: 1.5em;
-    background-color: rgb(235, 235, 235);
+    font-style: italic;
 }

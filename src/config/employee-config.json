@@ -1,6 +1,6 @@
 {
-    "minId": 1000,
-    "maxId": 9999,
+    "minId": 100000000,
+    "maxId": 999999999,
     "departments": [
         "Development", "QA", "Audit", "Accounting", "Management"
     ],
