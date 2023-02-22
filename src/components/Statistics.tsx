@@ -22,7 +22,7 @@ const columns: GridColumns = [
     }
 ]
 export const Statistics: React.FC<Props> = ({ title, field, objects }) => {
-    let statistics: any = {id: 1};
+    let statistics: any = {id: 1}
     if (objects.length > 0) {
         const initialObject: { minValue: number, maxValue: number, avgValue: number } =
         {
