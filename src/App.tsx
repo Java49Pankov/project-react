@@ -17,30 +17,29 @@ import { Logout } from './components/pages/Logout';
 
 function App() {
     const [routes, setRoutes] = useState<RouteType[]>([]);
-    const authUser:string = useSelector<any,string>(state=>state.auth.authenticated );
-    useEffect(()=> {
+    const authUser: string = useSelector<any, string>(state => state.auth.authenticated);
+    useEffect(() => {
         function getRoutes(): RouteType[] {
+            const logoutRoute: RouteType | undefined = layoutConfig.routes.find(route => route.path.includes("logout"));
+            logoutRoute!.label = authUser;
             return layoutConfig.routes.filter(r => (!authUser && !r.flAuth) ||
-            (authUser.includes('admin') && r.flAdmin) ||
-            (!!authUser && r.flAuth && !r.flAdmin))
+                (authUser.includes('admin') && r.flAdmin) ||
+                (!!authUser && r.flAuth && !r.flAdmin))
         }
         setRoutes(getRoutes());
     }, [authUser])
-  return <BrowserRouter>
-      <Routes>
-          <Route path='/' element={<Navigator 
-           routes={routes}  />}>
-              <Route index element={<Employees/>}/>
-              <Route path='add' element={<AddEmployee/>}/>
-              <Route path='statistics/age' element={<AgeStatistics/>}/>
-              <Route path='statistics/salary' element={<SalaryStatistics/>}/>
-              <Route path='login' element={<Login/>}/>
-              <Route path='logout' element={<Logout/>}/>
-              
-          </Route>
-              
-      </Routes>
-  </BrowserRouter>
+    return <BrowserRouter>
+        <Routes>
+            <Route path='/' element={<Navigator routes={routes} />}>
+                <Route index element={<Employees />} />
+                <Route path='add' element={<AddEmployee />} />
+                <Route path='statistics/age' element={<AgeStatistics />} />
+                <Route path='statistics/salary' element={<SalaryStatistics />} />
+                <Route path='login' element={<Login />} />
+                <Route path='logout' element={<Logout />} />
+            </Route>
+        </Routes>
+    </BrowserRouter>
 
 }
 export default App;
