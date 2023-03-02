@@ -26,6 +26,7 @@ export const Navigator: React.FC<NavigatorProps> = ({ routes }) => {
         <Outlet></Outlet>
     </Box>
 }
+
 function getNavItems(routes: { path: string; label: string }[]): React.ReactNode {
     return routes.map((r, index) => <Tab component={Link} to={r.path}
         label={r.label} key={index} />)
