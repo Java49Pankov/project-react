@@ -18,14 +18,12 @@ export const NavigatorMobile: React.FC<NavigatorProps> = ({ routes }) => {
         setMobileOpen(!mobileOpen);
     };
 
-
     const navigate = useNavigate();
     useEffect(() => {
         if (routes.length != 0) {
             navigate(routes[0].path)
         }
         setTabNumber(0)
-
     }, [routes]);
 
     function changeTabNumber(event: any, newNumber: number) {
@@ -39,7 +37,7 @@ export const NavigatorMobile: React.FC<NavigatorProps> = ({ routes }) => {
 
     const location = useLocation();
     useEffect(() => {
-        const curTitle = routes.find(item => item.path === location.pathname)
+        const curTitle = routes.find(route => route.path === location.pathname)
         if (curTitle && curTitle.label) {
             setPageTitle(curTitle.label)
         }
@@ -57,10 +55,7 @@ export const NavigatorMobile: React.FC<NavigatorProps> = ({ routes }) => {
     );
 
     return <Box sx={{ display: 'flex' }}>
-        <AppBar position="fixed" sx={{
-            width: { sm: `calc(100% - ${drawerWidth}px)` },
-            ml: { sm: `${drawerWidth}px` },
-        }}>
+        <AppBar>
             <Tabs value={tabNumber >= routes.length ? 0 : tabNumber} onChange={changeTabNumber} >
                 <Toolbar>
                     <IconButton
@@ -68,7 +63,7 @@ export const NavigatorMobile: React.FC<NavigatorProps> = ({ routes }) => {
                         aria-label="open drawer"
                         edge="start"
                         onClick={handleDrawerToggle}
-                        sx={{ mr: 2, display: { sm: 'none' } }}>
+                    >
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">
@@ -77,33 +72,18 @@ export const NavigatorMobile: React.FC<NavigatorProps> = ({ routes }) => {
                 </Toolbar>
             </Tabs>
         </AppBar>
-        <Box
-            component="nav"
-            sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-            aria-label="mailbox folders">
-            <SwipeableDrawer
-                variant="temporary"
-                open={mobileOpen}
-                onClose={(handleDrawerToggle)}
-                ModalProps={{
-                    keepMounted: true,
-                }}
+        <Box>
+            <SwipeableDrawer open={mobileOpen} onClose={(handleDrawerToggle)} onOpen={handleDrawerToggle}
                 sx={{
-                    display: { xs: 'block', sm: 'none' },
+                    display: { xs: 'block', md: 'none' },
                     '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-                }} onOpen={handleDrawerToggle}>
+                }}>
                 {drawer}
             </SwipeableDrawer>
-            <Drawer variant="permanent" sx={{
-                display: { xs: 'none', sm: 'block' },
-                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-            }} open>
-                {drawer}
-            </Drawer>
         </Box>
-        <Box component="main" sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
+        <Box component="main" sx={{ flexGrow: 1, p: 3, width: { md: `calc(100% - ${drawerWidth}px)` } }}>
             <Toolbar />
-            <Typography paragraph>
+            <Typography>
                 <Outlet></Outlet>
             </Typography>
         </Box>
