@@ -20,7 +20,6 @@ export const NavigatorMobile: React.FC<NavigatorProps> = ({ routes }) => {
         return route ? route.label : '';
     }
 
-
     function toggleOpen() {
         setOpen(!flOpen);
     }
