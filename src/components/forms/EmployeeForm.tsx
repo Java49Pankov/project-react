@@ -93,10 +93,17 @@ export const EmployeeForm: React.FC<Props> = ({ submitFn, employeeUpdate }) => {
                         }} />
                 </Grid>
             </Grid>
-            <Box sx={{ marginTop: { xs: "10vh", sm: "5vh" }, textAlign: "center" }}>
-                <Button type="submit">Submit</Button>
-                <Button type="reset">Reset</Button>
-            </Box>
+
+
+
+
+<Box sx={{ marginTop: {xs: "10vh", sm:"5vh"}, textAlign: "center"}}>
+    <Button type="submit">Submit</Button>
+            <Button type="reset">Reset</Button>
+</Box>
+            
+
+
         </form>
     </Box>
 }
