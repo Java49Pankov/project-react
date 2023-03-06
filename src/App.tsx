@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Navigator } from './components/navigators/Navigator';
 import './App.css'
 
 import { layoutConfig } from './config/layout-config';

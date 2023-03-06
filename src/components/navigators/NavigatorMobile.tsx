@@ -1,94 +1,48 @@
-import React, { useEffect, useState } from "react";
-import MenuIcon from '@mui/icons-material/Menu';
-import {
-    Box, Typography, AppBar, Divider, Drawer, IconButton,
-    List, Toolbar, Tab, Tabs, SwipeableDrawer
-} from "@mui/material";
-import { NavigatorProps } from "../../model/NavigatorProps";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-
-const drawerWidth = 240
-
+import React, { useEffect, useState } from 'react';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Menu } from '@mui/icons-material'
+import { AppBar, IconButton, ListItem, Toolbar, Typography, Drawer, List, Box } from '@mui/material';
+import { NavigatorProps } from '../../model/NavigatorProps';
 export const NavigatorMobile: React.FC<NavigatorProps> = ({ routes }) => {
-    const [tabNumber, setTabNumber] = React.useState(0);
-    const [mobileOpen, setMobileOpen] = React.useState(false);
-    const [pageTitle, setPageTitle] = useState('Home');
 
-    const handleDrawerToggle = () => {
-        setMobileOpen(!mobileOpen);
-    };
-
-    const navigate = useNavigate();
-    useEffect(() => {
-        if (routes.length != 0) {
-            navigate(routes[0].path)
-        }
-        setTabNumber(0)
-    }, [routes]);
-
-    function changeTabNumber(event: any, newNumber: number) {
-        setTabNumber(newNumber);
-    }
-
-    function getNavItems(routes: { path: string; label: string }[]): React.ReactNode {
-        return routes.map((r, index) => <Tab component={Link} to={r.path}
-            label={r.label} key={index} onClick={() => setMobileOpen(false)} />)
-    }
+    const [flOpen, setOpen] = useState<boolean>(false);
 
     const location = useLocation();
+    const navigate = useNavigate();
     useEffect(() => {
-        const curTitle = routes.find(route => route.path === location.pathname)
-        if (curTitle && curTitle.label) {
-            setPageTitle(curTitle.label)
+        if (routes.length > 0) {
+            navigate(routes[0].path);
         }
-    }, [location])
 
-    const drawer = (
-        <Box>
-            <Toolbar />
-            <Divider />
-            <List>
-                {getNavItems(routes)}
-            </List>
-            <Divider />
-        </Box>
-    );
+    }, [routes]);
+    function getTitle(): string {
+        const route = routes.find(r => r.path === location.pathname)
+        return route ? route.label : '';
+    }
 
-    return <Box sx={{ display: 'flex' }}>
-        <AppBar>
-            <Tabs value={tabNumber >= routes.length ? 0 : tabNumber} onChange={changeTabNumber} >
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="start"
-                        onClick={handleDrawerToggle}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" noWrap component="div">
-                        {pageTitle}
-                    </Typography>
-                </Toolbar>
-            </Tabs>
+
+    function toggleOpen() {
+        setOpen(!flOpen);
+    }
+    function getListItems(): React.ReactNode {
+        return routes.map(i => <ListItem onClick={toggleOpen} 
+            component={Link} to={i.path} key={i.path}>{i.label}</ListItem>)
+    }
+    return <Box sx={{ marginTop: { xs: "15vh", sm: "20vh" } }}>
+        <AppBar position="fixed">
+            <Toolbar><IconButton onClick={toggleOpen} sx={{ color: 'white' }}>
+                <Menu />
+            </IconButton>
+                <Typography sx={{ width: "100%", textAlign: "center", fontSize: "1.5em" }}>
+                    {getTitle()}
+                </Typography>
+                <Drawer open={flOpen} onClose={toggleOpen} anchor="left">
+                    <List>
+                        {getListItems()}
+                    </List>
+                </Drawer></Toolbar>
+
         </AppBar>
-        <Box>
-            <SwipeableDrawer open={mobileOpen} onClose={(handleDrawerToggle)} onOpen={handleDrawerToggle}
-                sx={{
-                    display: { xs: 'block', md: 'none' },
-                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-                }}>
-                {drawer}
-            </SwipeableDrawer>
-        </Box>
-        <Box component="main" sx={{ flexGrow: 1, p: 3, width: { md: `calc(100% - ${drawerWidth}px)` } }}>
-            <Toolbar />
-            <Typography>
-                <Outlet></Outlet>
-            </Typography>
-        </Box>
+        <Outlet></Outlet>
     </Box>
 }
-
-
-

@@ -8,10 +8,8 @@ export class Company {
         this.employees.push(empl);
     }
     updateEmployee(empl: Employee): void {
-        const index = this.employees.findIndex(e => e.id == empl.id);
-        
-        if (index >= 0 ) {
-           
+        const index = this.employees.findIndex(e => e.id == empl.id);        
+        if (index >= 0 ) {           
            this.employees[index] = empl;
         }
         

@@ -16,7 +16,6 @@ const authSlice = createSlice({
             if(state.authenticated) {
                 state.authenticated = '';
             }
-
         }
 
     }
