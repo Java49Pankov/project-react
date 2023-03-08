@@ -1,14 +1,15 @@
-
-import { LoginData } from "../model/LoginData";
-
+import {LoginData} from '../model/LoginData'
 export class AuthService {
     private users: LoginData[] = [
-        { userName: "user@gmail.com", password: "user1234" },
-        { userName: "admin@gmail.com", password: "admin1234" }
+        {username: "user@gmail.com", password: "user1234"},
+        {username: "admin@gmail.com", password: "admin1234"}
     ];
-    login(LoginData: LoginData) {
-        //TODO
-        //throws exception in the case mismatching a given LoginData with 
-        //array of users (field users)
+    login(loginData: LoginData) {
+     
+      const user = this.users.find(u => loginData.username === u.username);
+      if (!user || user.password !== loginData.password) {
+        throw 'Wrong credentials';
+      }
     }
+
 }
