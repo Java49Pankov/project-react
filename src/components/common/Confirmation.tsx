@@ -1,17 +1,17 @@
 import React from 'react';
-import {Button, Box, Dialog,DialogActions,
-     DialogContent, DialogContentText, DialogTitle} from '@mui/material'
+import {
+  Button, Box, Dialog, DialogActions,
+  DialogContent, DialogContentText, DialogTitle
+} from '@mui/material'
 
 type Props = {
-    title: string;
-    content: string;
-    confirmFn: (isOk: boolean) => void;
-    open: boolean
+  title: string;
+  content: string;
+  confirmFn: (isOk: boolean) => void;
+  open: boolean
 }
 
-
-
-export  const Confirmation: React.FC<Props> = ({title, confirmFn, content, open}) => {
+export const Confirmation: React.FC<Props> = ({ title, confirmFn, content, open }) => {
   const handleClose = (isOk: boolean) => {
     confirmFn(isOk);
   };
@@ -19,11 +19,8 @@ export  const Confirmation: React.FC<Props> = ({title, confirmFn, content, open}
   return (
     <Box>
       <Dialog
-        open={open}
-        onClose={() =>handleClose(false)}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
+        open={open} onClose={() => handleClose(false)} aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description">
         <DialogTitle id="alert-dialog-title">
           {title}
         </DialogTitle>
@@ -39,7 +36,7 @@ export  const Confirmation: React.FC<Props> = ({title, confirmFn, content, open}
           </Button>
         </DialogActions>
       </Dialog>
-      </Box>
-    
+    </Box>
+
   );
 }
