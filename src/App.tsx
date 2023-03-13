@@ -26,15 +26,16 @@ function App() {
             logoutRoute!.label = authUser;
             return layoutConfig.routes.filter(r => (!authUser && !r.flAuth) ||
                 (authUser.includes('admin') && r.flAdmin) ||
-                (authUser && r.flAuth && !r.flAdmin))
+                (authUser && r.flAuth && !r.flAdmin));
         }
         setRoutes(getRoutes());
     }, [authUser]);
 
     useEffect(() => {
-        dispatch(employeesActions.getEmployees());
-    }, [])
-
+        if (authUser) {
+            dispatch(employeesActions.getEmployees());
+        }
+    }, [authUser])
 
     return <BrowserRouter>
         <Routes>

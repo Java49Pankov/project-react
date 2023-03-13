@@ -20,6 +20,7 @@ const employeesSlice = createSlice({
 
 export const employeesReducer = employeesSlice.reducer;
 const actions = employeesSlice.actions;
+
 export const employeesActions: any = {
     addEmployee: (empl: Employee) => {
         return async (dispatch: any) => {
