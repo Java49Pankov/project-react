@@ -1,5 +1,5 @@
 import React, { ReactNode, useRef, useState } from 'react';
-import { Box, IconButton, List, ListItem, Typography } from '@mui/material';
+import { Alert, Box, IconButton, List, ListItem, Typography } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { Employee } from '../../model/Employee';
 import { DataGrid, GridActionsCellItem, GridColumns } from '@mui/x-data-grid';
@@ -8,6 +8,9 @@ import './table.css'
 import { employeesActions } from '../../redux/employees-slice';
 import { EmployeeForm } from '../forms/EmployeeForm';
 import { Confirmation } from '../common/Confirmation';
+import { CodeType } from '../../model/CodeType';
+import CloseIcon from '@mui/icons-material/Close';
+import { codeActions } from '../../redux/codeSlice';
 
 export const Employees: React.FC = () => {
     const dispatch = useDispatch();
@@ -20,6 +23,7 @@ export const Employees: React.FC = () => {
     const content = useRef<string>("");
     const confirmFn = useRef<(isOk: boolean) => void>((isOK) => { });
     const employees = useSelector<any, Employee[]>(state => state.company.employees);
+    const code: CodeType = useSelector<any, CodeType>(state => state.errorCode.code)
     const idRemoved = useRef<number>(0);
     const employeeToUpdate = useRef<Employee>();
 
@@ -105,6 +109,11 @@ export const Employees: React.FC = () => {
         return res;
     }
     return <Box sx={{ height: "80vh", width: "80vw" }}>
+        <Box >
+            {code !== "OK" && <Alert severity='error' onClose={() => dispatch(codeActions.setCode("OK"))}>
+                {code}
+            </Alert>}
+        </Box>
         {getComponent()}
         <Confirmation confirmFn={confirmFn.current} open={open}
             title={title.current} content={content.current}></Confirmation>

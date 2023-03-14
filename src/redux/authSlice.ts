@@ -31,7 +31,7 @@ export const authActions = {
             } catch (error) {
                 dispatch(codeActions.setCode("Creadentials Error"));
             }
-        }
+        } 
     },
     logout: () => {
         return async (dispatch: any) => {
