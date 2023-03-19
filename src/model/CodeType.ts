@@ -1,1 +1,1 @@
-export type CodeType = "OK" | "Creadentials Error" | "Authorization Error" | "Unknown Error"
+export type CodeType = "OK"|"Credentials Error"|"Authorization error"|"Unknown Error"

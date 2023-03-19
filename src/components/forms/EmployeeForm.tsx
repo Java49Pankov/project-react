@@ -12,43 +12,39 @@ const initialEmployee: Employee = {
     department: '', salary: 0
 };
 export const EmployeeForm: React.FC<Props> = ({ submitFn, employeeUpdate }) => {
-    const { minBirthYear, minSalary, maxBirthYear, maxSalary, departments } = employeeConfig;
-    const [employee, setEmployee] = useState<Employee>(employeeUpdate ? employeeUpdate : initialEmployee);
-
+    const { minBirthYear, minSalary, maxBirthYear, maxSalary, departments }
+        = employeeConfig;
+    const [employee, setEmployee] =
+        useState<Employee>(employeeUpdate ? employeeUpdate : initialEmployee);
     function handlerName(event: any) {
         const name = event.target.value;
         const emplCopy = { ...employee };
         emplCopy.name = name;
         setEmployee(emplCopy);
     }
-
     function handlerBirthdate(event: any) {
         const birthDate = event.target.value;
         const emplCopy = { ...employee };
         emplCopy.birthDate = birthDate;
         setEmployee(emplCopy);
     }
-
     function handlerSalary(event: any) {
         const salary: number = +event.target.value;
         const emplCopy = { ...employee };
         emplCopy.salary = salary;
         setEmployee(emplCopy);
     }
-
     function handlerDepartment(event: any) {
         const department = event.target.value;
         const emplCopy = { ...employee };
         emplCopy.department = department;
         setEmployee(emplCopy);
     }
-
     function onSubmitFn(event: any) {
         event.preventDefault();
         submitFn(employee);
         document.querySelector('form')!.reset();
     }
-
     function onResetFn(event: any) {
         setEmployee(employeeUpdate ? employeeUpdate : initialEmployee);
     }
@@ -69,18 +65,20 @@ export const EmployeeForm: React.FC<Props> = ({ submitFn, employeeUpdate }) => {
                 <Grid item xs={8} sm={5} >
                     <TextField type="text" required fullWidth label="Employee name"
                         helperText="enter Employee name" onChange={handlerName}
-                        value={employee.name}
-                        inputProps={{ readOnly: !!employeeUpdate }} />
+                        value={employee.name} inputProps={{
+                            readOnly: !!employeeUpdate
+
+                        }} />
                 </Grid>
                 <Grid item xs={8} sm={5} >
                     <TextField type="date" required fullWidth label="birthDate"
-                        value={employee.birthDate} onChange={handlerBirthdate}
-                        inputProps={{
+                        value={employee.birthDate} inputProps={{
                             readOnly: !!employeeUpdate,
                             min: `${minBirthYear}-01-01`,
                             max: `${maxBirthYear}-12-31`
-                        }}
-                        InputLabelProps={{ shrink: true }} />
+                        }} InputLabelProps={{
+                            shrink: true
+                        }} onChange={handlerBirthdate} />
                 </Grid>
                 <Grid item xs={8} sm={5} >
                     <TextField label="salary" fullWidth required
@@ -90,8 +88,9 @@ export const EmployeeForm: React.FC<Props> = ({ submitFn, employeeUpdate }) => {
                         inputProps={{
                             min: `${minSalary}`,
                             max: `${maxSalary}`
-                        }}
-                        InputLabelProps={{ shrink: !!employeeUpdate || !!employee.salary }} />
+                        }} InputLabelProps={{
+                            shrink: !!employeeUpdate || !!employee.salary
+                        }} />
                 </Grid>
             </Grid>
             <Box sx={{ marginTop: { xs: "10vh", sm: "5vh" }, textAlign: "center" }}>

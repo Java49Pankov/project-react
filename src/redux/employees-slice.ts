@@ -2,10 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 import { Employee } from '../model/Employee';
 import { CompanyFirebase } from '../service/CompanyFirebase';
 import { codeActions } from './codeSlice';
-const company = new CompanyFirebase();
+
+export const company = new CompanyFirebase();
 const initialState: { employees: Employee[] } = {
     employees: []
 }
+
 const employeesSlice = createSlice({
     initialState,
     name: "company",
@@ -17,22 +19,15 @@ const employeesSlice = createSlice({
 })
 
 export const employeesReducer = employeesSlice.reducer;
-const actions = employeesSlice.actions;
-
+export const { setEmployees } = employeesSlice.actions;
 export const employeesActions: any = {
     addEmployee: (empl: Employee) => {
         return async (dispatch: any) => {
             try {
                 await company.addEmployee(empl);
-                try {
-                    const employees = await company.getAllEmployees();
-                    dispatch(codeActions.setCode("OK"));
-                    dispatch(actions.setEmployees(employees));
-                } catch (error) {
-                    dispatch(codeActions.setCode("Unknown Error"));
-                }
-            } catch (error) {
-                dispatch(codeActions.setCode("Authorization Error"));
+                dispatch(codeActions.setCode("OK"));
+            } catch (error: any) {
+                dispatch(codeActions.setCode("Authorization error"));
             }
         }
     },
@@ -40,15 +35,9 @@ export const employeesActions: any = {
         return async (dispatch: any) => {
             try {
                 await company.updateEmployee(empl);
-                try {
-                    const employees = await company.getAllEmployees();
-                    dispatch(actions.setEmployees(employees));
-                    dispatch(codeActions.setCode("OK"));
-                } catch (error) {
-                    dispatch(codeActions.setCode("Unknown Error"));
-                }
-            } catch (error) {
-                dispatch(codeActions.setCode("Authorization Error"));
+                dispatch(codeActions.setCode("OK"));
+            } catch (error: any) {
+                dispatch(codeActions.setCode("Authorization error"));
             }
         }
     },
@@ -56,42 +45,22 @@ export const employeesActions: any = {
         return async (dispatch: any) => {
             try {
                 await company.removeEmployee(id);
-                try {
-                    const employees = await company.getAllEmployees();
-                    dispatch(actions.setEmployees(employees));
-                    dispatch(codeActions.setCode("OK"))
-                } catch {
-                    dispatch(codeActions.setCode("Unknown Error"));
-                }
-            } catch (error) {
-                dispatch(codeActions.setCode("Authorization Error"));
-            }
-        }
-    },
-    getEmployees: () => {
-        return async (dispatch: any) => {
-            try {
-                const employees = await company.getAllEmployees();
-                dispatch(actions.setEmployees(employees));
                 dispatch(codeActions.setCode("OK"));
-            } catch (error) {
-                dispatch(codeActions.setCode("Unknown Error"));
+            } catch (error: any) {
+                dispatch(codeActions.setCode("Authorization error"));
             }
         }
     },
-    addBulkEmployees: (employeesArr: Employee[]) => {
+    addBulkEmployees: (employeesAr: Employee[]) => {
         return async (dispatch: any) => {
-            try {
-                employeesArr.forEach(async (empl) => await company.addEmployee(empl));
+            for (let i = 0; i < employeesAr.length; i++) {
                 try {
-                    const employees = await company.getAllEmployees();
-                    dispatch(actions.setEmployees(employees));
+                    await company.addEmployee(employeesAr[i]);
                     dispatch(codeActions.setCode("OK"));
-                } catch (error) {
-                    dispatch(codeActions.setCode("Unknown Error"));
+                } catch (error: any) {
+                    dispatch(codeActions.setCode("Authorization error"));
+                    return;
                 }
-            } catch (error) {
-                dispatch(codeActions.setCode("Authorization Error"));
             }
         }
     }

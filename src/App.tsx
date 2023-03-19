@@ -7,17 +7,20 @@ import { AgeStatistics } from './components/pages/AgeStatistics';
 import { SalaryStatistics } from './components/pages/SalaryStatistics';
 import { useEffect, useState } from 'react';
 import { RouteType } from './model/RouteType';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { company, setEmployees } from './redux/employees-slice';
 import { Login } from './components/pages/Login';
 import { Logout } from './components/pages/Logout';
 import { Generation } from './components/pages/Generation';
 import { NavigatorDispatch } from './components/navigators/NavigatorDispatch';
-import { employeesActions } from './redux/employees-slice';
+import { Employee } from './model/Employee';
+import { codeActions } from './redux/codeSlice';
+import { Subscription } from 'rxjs';
 
 function App() {
+    const dispatch = useDispatch<any>();
     const [routes, setRoutes] = useState<RouteType[]>([]);
     const authUser: string = useSelector<any, string>(state => state.auth.authenticated);
-    const dispatch = useDispatch<any>();
 
     useEffect(() => {
         function getRoutes(): RouteType[] {
@@ -26,16 +29,29 @@ function App() {
             logoutRoute!.label = authUser;
             return layoutConfig.routes.filter(r => (!authUser && !r.flAuth) ||
                 (authUser.includes('admin') && r.flAdmin) ||
-                (authUser && r.flAuth && !r.flAdmin));
+                (authUser && r.flAuth && !r.flAdmin))
         }
         setRoutes(getRoutes());
     }, [authUser]);
 
     useEffect(() => {
+        let subscription: Subscription
         if (authUser) {
-            dispatch(employeesActions.getEmployees());
+            subscription = company.getAllEmployees().subscribe({
+                next: (employees: Employee[]) => {
+                    dispatch(setEmployees(employees));
+                    dispatch(codeActions.setCode("OK"));
+                },
+                error: (err: any) => {
+                    dispatch(codeActions.setCode("Unknown Error"));
+                }
+            })
         }
-    }, [authUser])
+        return () => {
+            subscription && subscription.unsubscribe()
+            console.log("unsubscribing")
+        }
+    }, [authUser]);
 
     return <BrowserRouter>
         <Routes>

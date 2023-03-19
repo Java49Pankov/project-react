@@ -9,18 +9,27 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, styled, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { LoginData } from '../../model/LoginData';
-import { Alert } from '@mui/material';
+import { Alert, Divider } from '@mui/material';
 import { CodeType } from '../../model/CodeType';
-import ImageIcon from '../../image/googleIcon1.jpg'
 
+function Copyright(props: any) {
+  return (
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+      {'Copyright © '}
+      <Link color="inherit" href="https://tel-ran.com">
+        tel-ran.com
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 type Props = {
   submitFn: (loginData: LoginData) => void;
-
-  code: CodeType
+  code: CodeType;
 };
-
 const theme = createTheme();
 
 export const LoginForm: React.FC<Props> = ({ submitFn, code }) => {
@@ -33,31 +42,19 @@ export const LoginForm: React.FC<Props> = ({ submitFn, code }) => {
     }
     submitFn(loginData);
   };
-  const Img = styled('img')({
-    width: '20px',
-    marginRight: '40px',
-
-  });
-
-  function Copyright(props: any) {
-    return (
-      <Typography variant="body2" color="text.secondary" align="center" {...props}>
-        {'Copyright © '}
-        <Link color="inherit" href="https://tel-ran.com">
-          tel-ran.com
-        </Link>{' '}
-        {new Date().getFullYear()}
-        {'.'}
-      </Typography>
-    );
-  }
 
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
-          sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center', }}>
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
@@ -65,27 +62,51 @@ export const LoginForm: React.FC<Props> = ({ submitFn, code }) => {
             Sign in
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField margin="normal" required fullWidth id="email"
-              label="Username" name="username" autoComplete="email" autoFocus />
-            <TextField margin="normal" required fullWidth name="password"
-              label="Password" type="password" id="password" autoComplete="current-password" />
-            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Username"
+              name="username"
+              autoComplete="email"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
               Sign In
-            </Button>
-            <Typography textAlign={'center'}>----------------------------or----------------------------</Typography>
-            <Button onClick={() => submitFn({ username: "GOOGLE", password: "" })} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} >
-              <Img src={ImageIcon}></Img>Sign In with Google
             </Button>
             <Grid container>
               <Grid item>
-                {code == 'Creadentials Error' && <Alert severity='error'>{code}, enter another Creadentials</Alert>}
+                {code == 'Credentials Error' && <Alert severity='error' >{code}, enter another credentials</Alert>}
               </Grid>
             </Grid>
           </Box>
+          <Divider sx={{ width: "100%", fontWeight: "bold" }}>or</Divider>
+          <Button
+            onClick={() =>
+              submitFn({ username: 'GOOGLE', password: '' })} fullWidth variant="outlined"
+            sx={{ mt: 2 }}
+          >
+            <Avatar src="https://img.icons8.com/color/2x/google-logo.png" sx={{ width: { xs: '6vh', sm: '6vw', lg: '3vw' } }} />
+          </Button>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );
-
 }

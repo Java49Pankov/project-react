@@ -7,5 +7,8 @@ export const store = configureStore({
         company: employeesReducer,
         auth: authReducer,
         errorCode: codeReducer
+
     }
+
+
 })

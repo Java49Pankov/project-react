@@ -19,8 +19,11 @@ export const Confirmation: React.FC<Props> = ({ title, confirmFn, content, open 
   return (
     <Box>
       <Dialog
-        open={open} onClose={() => handleClose(false)} aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description">
+        open={open}
+        onClose={() => handleClose(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
         <DialogTitle id="alert-dialog-title">
           {title}
         </DialogTitle>
