@@ -19,7 +19,7 @@ function Copyright(props: any) {
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://tel-ran.com">
-        tel-ran.com
+      tel-ran.com
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -27,22 +27,20 @@ function Copyright(props: any) {
   );
 }
 type Props = {
-  submitFn: (loginData: LoginData) => void;
+  submitFn: (loginData: LoginData)=>void;
   code: CodeType;
 };
 const theme = createTheme();
 
-export const LoginForm: React.FC<Props> = ({ submitFn, code }) => {
+export const LoginForm: React.FC<Props> = ({submitFn, code}) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const loginData: LoginData = {
-      username: data.get("username") as string,
-      password: data.get("password") as string
-    }
-    submitFn(loginData);
+    const loginData: LoginData = {username: data.get("username") as string,
+  password: data.get("password") as string}
+ submitFn(loginData);
   };
-
+  
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -82,6 +80,7 @@ export const LoginForm: React.FC<Props> = ({ submitFn, code }) => {
               id="password"
               autoComplete="current-password"
             />
+          
             <Button
               type="submit"
               fullWidth
@@ -91,22 +90,26 @@ export const LoginForm: React.FC<Props> = ({ submitFn, code }) => {
               Sign In
             </Button>
             <Grid container>
+             
               <Grid item>
-                {code == 'Credentials Error' && <Alert severity='error' >{code}, enter another credentials</Alert>}
+              {code == 'Credentials Error' && <Alert severity='error' >{code}, enter another credentials</Alert>}
               </Grid>
             </Grid>
           </Box>
-          <Divider sx={{ width: "100%", fontWeight: "bold" }}>or</Divider>
-          <Button
-            onClick={() =>
-              submitFn({ username: 'GOOGLE', password: '' })} fullWidth variant="outlined"
-            sx={{ mt: 2 }}
-          >
-            <Avatar src="https://img.icons8.com/color/2x/google-logo.png" sx={{ width: { xs: '6vh', sm: '6vw', lg: '3vw' } }} />
-          </Button>
-        </Box>
+          <Divider sx={{ width: "100%", fontWeight: "bold"}}>or</Divider>
+          <Button 
+           onClick={() =>
+            submitFn({ username: 'GOOGLE', password: '' })} fullWidth variant="outlined" 
+            sx={{mt: 2}}
+             >
+
+            <Avatar src="https://img.icons8.com/color/2x/google-logo.png" sx={{width:{xs: '6vh', sm: '6vw', lg: '3vw'}}}  />
+        </Button>
+          </Box>
+        
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
+      
     </ThemeProvider>
   );
 }

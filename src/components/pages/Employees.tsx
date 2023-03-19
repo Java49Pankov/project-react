@@ -83,7 +83,10 @@ export const Employees: React.FC = () => {
                 <DataGrid columns={columns.current} rows={employees}/>
                 {authUser.includes("admin") && <IconButton onClick={() => setFlAdd(true)}><PersonAdd/></IconButton>}
         </Box>
-        if (flEdit) {
+        if (code == "Authorization error") {
+            res = <Alert severity='error'
+             onClose={() => dispatch(codeActions.setCode("OK"))}>Authorization Error, contact admin</Alert>
+        } else if (flEdit) {
             res = <EmployeeForm submitFn={function (empl: Employee): boolean {
                 
                 title.current = "Update Employee object?";
@@ -100,9 +103,6 @@ export const Employees: React.FC = () => {
                 setFlAdd(false);
                 return true;
             } }/>
-        }else if (code == "Authorization error") {
-            res = <Alert severity='error'
-             onClose={() => dispatch(codeActions.setCode("OK"))}>Authorization Error, contact admin</Alert>
         }else if (code == "Unknown Error") {
             res = <Alert severity='error'
              onClose={() => dispatch(codeActions.setCode("OK"))}>Unknown Error</Alert>

@@ -3,7 +3,7 @@ import { LoginData } from "../model/LoginData";
 import { AuthServiceFirebase } from "../service/AuthServiceFirebase";
 import { codeActions } from "./codeSlice";
 const authService = new AuthServiceFirebase();
-const initialState: { authenticated: string } = {
+const initialState: {authenticated: string} = {
     authenticated: localStorage.getItem('authUser') || ''
 };
 const authSlice = createSlice({
@@ -22,13 +22,16 @@ export const authActions = {
     login: (loginData: LoginData) => {
         return async (dispatch: any) => {
             try {
-                const authUser = await authService.login(loginData);
-                localStorage.setItem("authUser", authUser);
-                dispatch(codeActions.setCode("OK"));
-                dispatch(actions.setAuthenticated(authUser));
-            } catch (e) {
+                 const authUser = await authService.login(loginData);
+                 localStorage.setItem("authUser", authUser);
+                 dispatch(codeActions.setCode("OK"));
+            dispatch(actions.setAuthenticated(authUser));
+            } catch(e) {
                 dispatch(codeActions.setCode("Credentials Error"));
             }
+
+           
+            
         }
     },
     logout: () => {

@@ -1,15 +1,18 @@
 import React from "react";
 import {Box, TextField, Button, Alert} from '@mui/material';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import generationConfig from '../../config/generation-config.json';
 import { employeesActions } from "../../redux/employees-slice";
 import { createRandomEmployee } from "../../service/EmployeesService";
 import { Employee } from "../../model/Employee";
+import { codeActions } from "../../redux/codeSlice";
+import { CodeType } from "../../model/CodeType";
 export const Generation: React.FC = () => {
     const dispatch = useDispatch();
     const {defaultAmount, minAmount, maxAmount, alertTimeout} = generationConfig;
     const [amount, setAmount] = React.useState<number>(defaultAmount);
     const [flAlertSuccess, setAlertAccess] = React.useState<boolean>(false);
+    const code: CodeType = useSelector<any, CodeType>(state=>state.errorCode.code );
     function handlerAmount(event: any): void {
         setAmount(+event.target.value);
     }
@@ -21,10 +24,12 @@ export const Generation: React.FC = () => {
         }
          
          dispatch(employeesActions.addBulkEmployees(employeesAr));
-        setAlertAccess(true);
-        setTimeout(() => setAlertAccess(false),alertTimeout );
+       alertAccess();
     }
-    
+    function alertAccess() {
+        setTimeout(() => {if (code === "OK") setAlertAccess(true)}, 200)
+        setTimeout(() => setAlertAccess(false), 5000);
+    }
 
 
     return <Box>
@@ -40,7 +45,12 @@ export const Generation: React.FC = () => {
               <Button type="submit">Generate</Button>
 
         </form>
-        {flAlertSuccess && <Alert severity="success">Generated {amount} random employee objects</Alert>}
-         
+        {flAlertSuccess && code === "OK" && <Alert severity="success">Generated {amount} random employee objects</Alert>}
+        {code !== "OK" && <Alert severity='error'
+             onClose={() => {
+                dispatch(codeActions.setCode("OK"));
+                setAlertAccess(false);
+                }}>{code}</Alert>}
+               
     </Box>
 }
