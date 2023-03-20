@@ -9,8 +9,6 @@ type Props = {
     open: boolean
 }
 
-
-
 export  const Confirmation: React.FC<Props> = ({title, confirmFn, content, open}) => {
   const handleClose = (isOk: boolean) => {
     confirmFn(isOk);

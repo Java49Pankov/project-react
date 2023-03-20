@@ -49,8 +49,7 @@ function App() {
         return () => {
             subscription && subscription.unsubscribe();
             console.log("unsubscribing");
-        };
-      
+        };      
     },[authUser])
   return <BrowserRouter>
       <Routes>
