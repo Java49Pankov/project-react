@@ -1,5 +1,5 @@
 import React, { ReactNode, useRef, useState } from 'react';
-import { Box, IconButton, List, ListItem, Typography } from '@mui/material';
+import { Box, IconButton,Alert } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { Employee } from '../../model/Employee';
 import { DataGrid, GridActionsCellItem, GridColumns } from '@mui/x-data-grid';
@@ -8,6 +8,8 @@ import './table.css'
 import { employeesActions } from '../../redux/employees-slice';
 import { EmployeeForm } from '../forms/EmployeeForm';
 import { Confirmation } from '../common/Confirmation';
+import { CodeType } from '../../model/CodeType';
+import { codeActions } from '../../redux/codeSlice';
 export const Employees: React.FC = () => {
     const dispatch = useDispatch();
     const authUser = useSelector<any, string>(state => state.auth.authenticated);
@@ -54,6 +56,7 @@ export const Employees: React.FC = () => {
     const confirmFn = useRef<(isOk: boolean)=>void>((isOK)=> {});
     const employees = useSelector<any, Employee[]>(state => state.company.employees);
     const idRemoved = useRef<number>(0);
+    const code: CodeType = useSelector<any, CodeType>(state=>state.errorCode.code );
     const employeeToUpdate = useRef<Employee>();
     function removeEmployee(id: number) {
         title.current = "Remove Employee object?";
@@ -97,6 +100,12 @@ export const Employees: React.FC = () => {
                 setFlAdd(false);
                 return true;
             } }/>
+        }else if (code == "Authorization error") {
+            res = <Alert severity='error'
+             onClose={() => dispatch(codeActions.setCode("OK"))}>Authorization Error, contact admin</Alert>
+        }else if (code == "Unknown Error") {
+            res = <Alert severity='error'
+             onClose={() => dispatch(codeActions.setCode("OK"))}>Unknown Error</Alert>
         }
         return res;
     }
@@ -104,5 +113,6 @@ export const Employees: React.FC = () => {
         {getComponent()}
         <Confirmation confirmFn={confirmFn.current} open={open}
          title={title.current} content={content.current}></Confirmation>
+         
     </Box>
 }
